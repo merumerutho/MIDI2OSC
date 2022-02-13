@@ -7,12 +7,12 @@ def intro():
     print("*")
     print("*\t Converts MIDI-IN to OSC messages.")
     print("*\t Author: merumerutho (meru.cloud, github.com/merutochan)")
-    print("*" * 80)
+    print("*"*80)
 
 
 def display_as_list(lst):
     for i, e in enumerate(lst):
-        print("{}) {}".format(i, e))
+        print("\t{}) {}".format(i, e))
 
 
 def user_input_number(min_val, max_val):

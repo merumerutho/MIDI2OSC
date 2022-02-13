@@ -2,3 +2,4 @@ ERR_NO_MIDI_PORTS =         -1
 ERR_INVALID_INPUT =         -2
 ERR_WRONG_MIDI_PORT =       -3
 ERR_CANT_OPEN_MIDI_PORT =   -4
+ERR_INVALID_JSON =          -5
