@@ -1,0 +1,8 @@
+{
+	"description":		"Test configuration for MIDI2OSC.",
+	"interface": 		"M8",
+	"verbose":			true,
+	
+	"osc_ip":			"127.0.0.1",
+	"osc_port":			133
+}
