@@ -1,8 +1,59 @@
 {
-	"description":		"Test configuration for MIDI2OSC.",
-	"interface": 		"M8",
-	"verbose":			true,
+	"description":					"Test configuration for MIDI2OSC.",
+	"interface": 					"M8",
 	
-	"osc_ip":			"127.0.0.1",
-	"osc_port":			133
+	"osc_ip":						"127.0.0.1",
+	"osc_port":						1337,
+	
+	"messages":
+	{
+		"start":					"None",
+		
+		"stop": 					"None",
+		
+		"channels":
+		[
+			{
+				"ch_id":			0,
+				"notes":
+				[
+					{
+						"dest":		"path/to/res3"
+					}
+				],
+				"CC":
+				[
+					{
+						"cc_id":	1,
+						"dest":		"path/to/res1"
+					},
+					{
+						"cc_id":	2,
+						"dest":		"path/to/res2"
+					}
+				]
+			},
+			
+			{
+				"ch_id":			1,
+				"notes":
+				[
+					{
+						"dest":		"path/to/res4"
+					}
+				],
+				"CC":
+				[
+					{
+						"cc_id":	1,
+						"dest":		"path/to/res5"
+					},
+					{
+						"cc_id":	2,
+						"dest":		"path/to/res6"
+					}
+				]
+			}
+		]
+	}
 }
