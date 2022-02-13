@@ -17,7 +17,10 @@ logging.getLogger().setLevel(defs.LOGGING_LEVEL)
 def parse_config(config_path):
     config = None
     try:
-        config = json.loads(config_path)
+        with open(config_path) as f:
+            config = json.loads(f.read())
+    except IOError:
+        logging.error("Could not open the config filepath.")
     except json.JSONDecodeError:
         logging.error("Could not decode config JSON file.")
     return config
