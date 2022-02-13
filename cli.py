@@ -15,14 +15,19 @@ def display_as_list(lst):
         print("\t{}) {}".format(i, e))
 
 
-def user_input_number(min_val, max_val):
+def user_input_number(min_val=None, max_val=None):
     usr_in = input(">")
     try:
         usr_in = int(usr_in.strip())
-        assert(min_val <= usr_in <= max_val)
+        assert(min_val is None or min_val <= usr_in)
+        assert(max_val is None or usr_in <= max_val)
     except ValueError or TypeError:
         logging.error("Invalid data. Input must be a number.")
     except AssertionError:
         logging.error("Invalid number.")
         exit(defs.ERR_INVALID_INPUT)
     return usr_in
+
+
+def user_input_string():
+    pass

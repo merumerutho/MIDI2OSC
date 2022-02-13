@@ -2,13 +2,17 @@ import argparse
 import logging
 import json
 
-import pythonosc
+from pythonosc.udp_client import SimpleUDPClient
 import rtmidi
 
 import cli
 import defs
 
 import midi2osc
+
+# Set logger to
+logging.getLogger().setLevel(defs.LOGGING_LEVEL)
+
 
 def parse_config(config_path):
     config = None
@@ -18,7 +22,8 @@ def parse_config(config_path):
         logging.error("Could not decode config JSON file.")
     return config
 
-def parse_port(config, ports):
+
+def parse_midi_port(config, ports):
     choice = None
     if config:
         if config["interface"]:
@@ -27,6 +32,13 @@ def parse_port(config, ports):
                     choice = i
                     break
     return choice
+
+
+def parse_osc_address_port(config):
+    ip, port = None, None
+    if config:
+        ip, port = config.get("osc_ip"), config.get("osc_port")
+    return ip, port
 
 
 def main():
@@ -48,8 +60,8 @@ def main():
         logging.error("No MIDI-In ports found!")
         exit(defs.ERR_NO_MIDI_PORTS)
 
-    # Parse user-choice port
-    port_choice = parse_port(config, ports)
+    # Parse user-choice MIDI port
+    port_choice = parse_midi_port(config, ports)
     if not port_choice:
         print("No MIDI-In port specified or found in configuration.")
         print("Choose your MIDI-in port interface:")
@@ -57,17 +69,34 @@ def main():
         port_choice = cli.user_input_number(0, len(ports)-1)
         print("({}) selected as MIDI-In port.".format(ports[port_choice]))
 
-    # Open port
+    # Access MIDI-IN
     try:
         midi_in.open_port(port_choice)
     except BaseException as e:
         logging.error("Could not open specified port! Error: {}".format(e))
         exit(defs.ERR_CANT_OPEN_MIDI_PORT)
+    print("Listening to {}.".format(ports[port_choice]))
 
-    # Poll messages
+    # Parse user-choice OSC address and port
+    osc_ip, osc_port = parse_osc_address_port(config)
+    if not osc_ip:
+        osc_ip = defs.DEFAULT_OSC_IP
+    if not osc_port:
+        osc_port = defs.DEFAULT_OSC_PORT
+    print("Selected {} as OSC Ip.".format(osc_ip))
+    print("Selected {} as OSC Port.".format(osc_port))
+
+    # Open OSC client
+    try:
+        osc_client = SimpleUDPClient(osc_ip, osc_port)
+    except BaseException as e:
+        logging.error("Could not open OSC address! Error: {}".format(e))
+    print("Initiated OSC client.")
+
+    # Infinite cycle
     while True:
         msg = midi_in.get_message()
-        midi2osc.parse_msg(msg)
+        midi2osc.eval_midi_msg(config, msg, osc_client)
 
 
 if __name__ == "__main__":
