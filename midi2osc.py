@@ -1,6 +1,5 @@
 import defs
 import logging
-from pythonosc.udp_client import SimpleUDPClient
 
 def eval_midi_msg(config, msg, client):
     known_midi = False
@@ -19,7 +18,7 @@ def eval_midi_msg(config, msg, client):
 
 
 def check_cc(config, msg, client):
-    if defs.CC_START_RANGE <= msg[0] < defs.CC_END_RANGE:
+    if defs.CC_START_RANGE <= msg[0] <= defs.CC_END_RANGE:
         cmd, ctrl, data = msg[0], msg[1], msg[2]
         channel = (cmd - defs.CC_START_RANGE)
         logging.info("Midi CC: channel {}, control {}, data {}".format(channel, ctrl, data))
@@ -28,12 +27,12 @@ def check_cc(config, msg, client):
 
 
 def check_note(config, msg, client):
-    if defs.NOTE_ON_START_RANGE <= msg[0] < defs.NOTE_ON_END_RANGE:
+    if defs.NOTE_ON_START_RANGE <= msg[0] <= defs.NOTE_ON_END_RANGE:
         channel, note, velocity = (msg[0] - defs.NOTE_ON_START_RANGE), msg[1], msg[2]
         logging.info("Midi note on: channel {}, note {}, velocity {}".format(channel, note, velocity))
 
         return True
-    elif defs.NOTE_OFF_START_RANGE <= msg[0] < defs.NOTE_OFF_END_RANGE:
+    elif defs.NOTE_OFF_START_RANGE <= msg[0] <= defs.NOTE_OFF_END_RANGE:
         channel, note, velocity = (msg[0] - defs.NOTE_OFF_START_RANGE), msg[1], msg[2]
         logging.info("Midi note off: channel {}, note {}, velocity {}".format(channel, note, velocity))
 
