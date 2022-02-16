@@ -1,56 +1,54 @@
 {
-	"description":					"Test configuration for MIDI2OSC.",
-	"interface": 					"M8",
+	"description":							"Test configuration for MIDI2OSC.",
+	"interface": 							"M8",
 	
-	"osc_ip":						"127.0.0.1",
-	"osc_port":						1337,
+	"osc_ip":								"127.0.0.1",
+	"osc_port":								1337,
 	
 	"messages":
 	{
-		"start":					"None",
+		"dest_start":						"None",
 		
-		"stop": 					"None",
+		"dest_stop": 						"None",
 		
 		"channels":
 		[
 			{
-				"ch_id":			0,
+				"ch_id":					0,
 				"notes":
-				[
-					{
-						"dest":		"path/to/res3"
-					}
-				],
+				{
+					"dest_note_on":			"/path/to/res3",
+					"dest_note_off":		"/path/to/res7"
+				},
 				"CC":
 				[
 					{
-						"cc_id":	1,
-						"dest":		"path/to/res1"
+						"cc_id":			1,
+						"dest":				"/path/to/res1"
 					},
 					{
-						"cc_id":	2,
-						"dest":		"path/to/res2"
+						"cc_id":			2,
+						"dest":				"/path/to/res2"
 					}
 				]
 			},
 			
 			{
-				"ch_id":			1,
+				"ch_id":					1,
 				"notes":
-				[
-					{
-						"dest":		"path/to/res4"
-					}
-				],
+				{
+					"dest_note_on":			"/path/to/res4",
+					"dest_note_off":		"/path/to/res8"
+				},
 				"CC":
 				[
 					{
-						"cc_id":	1,
-						"dest":		"path/to/res5"
+						"cc_id":			1,
+						"dest":				"/path/to/res5"
 					},
 					{
-						"cc_id":	2,
-						"dest":		"path/to/res6"
+						"cc_id":			2,
+						"dest":				"/path/to/res6"
 					}
 				]
 			}
