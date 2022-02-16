@@ -2,29 +2,43 @@ import defs
 
 
 def get_dest_cc(config, channel, ctrl):
-    for ch in config["messages"]["channels"]:
-        if ch["ch_id"] == channel:
-            for cc in ch["CC"]:
-                if cc["cc_id"] == ctrl:
-                    return cc["dest"]
-    return defs.ERR_DEST_NOT_FOUND
+    try:
+        for ch in config.get("messages").get("channels"):
+            if ch.get("ch_id") == channel:
+                for cc in ch.get("CC"):
+                    if cc.get("cc_id") == ctrl:
+                        return cc.get("dest")
+    except BaseException:
+        return defs.ERR_DEST_NOT_FOUND
 
 
 def get_dest_note_on(config, channel):
-    for ch in config["messages"]["channels"]:
-        if ch["ch_id"] == channel:
-            return ch["notes"]["dest_note_on"]
+    try:
+        for ch in config.get("messages").get("channels"):
+            if ch.get("ch_id") == channel:
+                return ch.get("notes").get("dest_note_on")
+    except BaseException:
+        return defs.ERR_DEST_NOT_FOUND
 
 
 def get_dest_note_off(config, channel):
-    for ch in config["messages"]["channels"]:
-        if ch["ch_id"] == channel:
-            return ch["notes"]["dest_note_off"]
+    try:
+        for ch in config.get("messages").get("channels"):
+            if ch.get("ch_id") == channel:
+                return ch.get("notes").get("dest_note_off")
+    except BaseException:
+        return defs.ERR_DEST_NOT_FOUND
 
 
 def get_dest_start(config):
-    return config["messages"]["dest_start"]
+    try:
+        return config.get("messages").get("dest_start")
+    except BaseException:
+        return defs.ERR_DEST_NOT_FOUND
 
 
 def get_dest_stop(config):
-    return config["messages"]["dest_stop"]
+    try:
+        return config.get("messages").get("dest_stop")
+    except BaseException:
+        return defs.ERR_DEST_NOT_FOUND
