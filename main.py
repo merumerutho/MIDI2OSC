@@ -49,9 +49,10 @@ def main():
     cli.intro()
 
     args = argparse.ArgumentParser()
-    args.add_argument("-c", "--config_path", required=False, help="JSON configuration filepath.")
+    args.add_argument("-c", "--config_path", required=True, help="JSON configuration filepath.")
     args = args.parse_args()
     config = None
+    osc_client = None
 
     if args.config_path:
         config = parse_config(args.config_path)
