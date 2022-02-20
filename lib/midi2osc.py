@@ -4,7 +4,6 @@ import configuration_interface as IConfig
 
 
 def eval_midi_msg(config, msg, client):
-    result = False
     if msg:
         delta = msg[1]
         msg = msg[0]

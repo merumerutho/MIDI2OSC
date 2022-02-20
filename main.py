@@ -5,10 +5,10 @@ import json
 from pythonosc.udp_client import SimpleUDPClient
 import rtmidi
 
-import cli
-import defs
+import lib.cli as cli
+import lib.defs as defs
 
-import midi2osc
+import lib.midi2osc as midi2osc
 
 # Set logger to
 logging.getLogger().setLevel(defs.LOGGING_LEVEL)
