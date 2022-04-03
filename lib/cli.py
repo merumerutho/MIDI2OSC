@@ -1,4 +1,4 @@
-import defs
+import lib.defs as defs
 import logging
 
 def intro():

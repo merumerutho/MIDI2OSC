@@ -1,6 +1,7 @@
-import defs
+import lib.defs as defs
 import logging
-import configuration_interface as IConfig
+import time
+import lib.configuration_interface as IConfig
 
 
 def eval_midi_msg(config, msg, client):
@@ -19,10 +20,12 @@ def eval_midi_msg(config, msg, client):
 
 
 def check_cc(config, msg, client):
+    time_data = time.gmtime()
+    time_data = "[{}:{}:{}]".format(time_data.tm_hour, time_data.tm_min, time_data.tm_sec)
     if defs.CC_START_RANGE <= msg[0] <= defs.CC_END_RANGE:
         cmd, ctrl, data = msg[0], msg[1], msg[2]
         channel = (cmd - defs.CC_START_RANGE)
-        logging.info("Midi CC: channel {}, control {}, data {}".format(channel, ctrl, data))
+        logging.info("{} - Midi CC: channel {}, control {}, data {}".format(time_data, channel, ctrl, data))
         dest = IConfig.get_dest_cc(config, channel, ctrl)
         if dest == defs.ERR_DEST_NOT_FOUND:
             return False
@@ -32,9 +35,11 @@ def check_cc(config, msg, client):
 
 
 def check_note(config, msg, client):
+    time_data = time.gmtime()
+    time_data = "[{}:{}:{}]".format(time_data.tm_hour, time_data.tm_min, time_data.tm_sec)
     if defs.NOTE_ON_START_RANGE <= msg[0] <= defs.NOTE_ON_END_RANGE:
         channel, note, velocity = (msg[0] - defs.NOTE_ON_START_RANGE), msg[1], msg[2]
-        logging.info("Midi note on: channel {}, note {}, velocity {}".format(channel, note, velocity))
+        logging.info("{} - Midi note on: channel {}, note {}, velocity {}".format(time_data, channel, note, velocity))
         dest = IConfig.get_dest_note_on(config, channel)
         if dest == defs.ERR_DEST_NOT_FOUND:
             return False
@@ -43,7 +48,7 @@ def check_note(config, msg, client):
         return True
     elif defs.NOTE_OFF_START_RANGE <= msg[0] <= defs.NOTE_OFF_END_RANGE:
         channel, note, velocity = (msg[0] - defs.NOTE_OFF_START_RANGE), msg[1], msg[2]
-        logging.info("Midi note off: channel {}, note {}, velocity {}".format(channel, note, velocity))
+        logging.info("{} - Midi note off: channel {}, note {}, velocity {}".format(time_data, channel, note, velocity))
         dest = IConfig.get_dest_note_off(config, channel)
         if dest == defs.ERR_DEST_NOT_FOUND:
             return False
@@ -53,8 +58,10 @@ def check_note(config, msg, client):
 
 
 def check_start_continue(config, msg, client):
+    time_data = time.gmtime()
+    time_data = "[{}:{}:{}]".format(time_data.tm_hour, time_data.tm_min, time_data.tm_sec)
     if defs.MIDI_START == msg[0] or defs.MIDI_CONTINUE == msg[0]:
-        logging.info("Midi Start/Continue")
+        logging.info("{} - Midi Start/Continue".format(time_data))
         dest = IConfig.get_dest_start(config)
         if dest == defs.ERR_DEST_NOT_FOUND:
             return False

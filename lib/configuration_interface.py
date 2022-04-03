@@ -1,4 +1,4 @@
-import defs
+import lib.defs as defs
 
 
 def get_dest_cc(config, channel, ctrl):
