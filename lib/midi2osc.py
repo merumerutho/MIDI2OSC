@@ -10,9 +10,9 @@ def eval_midi_msg(config, msg, client):
         msg = msg[0]
         # Now, parse message through the currently supported methods
         result = check_cc(config, msg, client) or \
-                     check_note(config, msg, client) or \
-                     check_start_continue(config, msg, client) or \
-                     check_stop(config, msg, client)
+                 check_note(config, msg, client) or \
+                 check_start_continue(config, msg, client) or \
+                 check_stop(config, msg, client)
 
         if not result:
             logging.info(msg)
@@ -30,7 +30,10 @@ def check_cc(config, msg, client):
         if dest == defs.ERR_DEST_NOT_FOUND:
             return False
         # Send message
-        client.send_message(dest, data)
+        try:
+            client.send_message(dest, data)
+        except BaseException as e:
+            return False
         return True
 
 
