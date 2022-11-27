@@ -23,6 +23,9 @@ def check_cc(config, msg, client):
     time_data = time.gmtime()
     time_data = "[{}:{}:{}]".format(time_data.tm_hour, time_data.tm_min, time_data.tm_sec)
     if defs.CC_START_RANGE <= msg[0] <= defs.CC_END_RANGE:
+        # Ignore Program Changes (for now)
+        if msg[0] == 192:
+            return False
         cmd, ctrl, data = msg[0], msg[1], msg[2]
         channel = (cmd - defs.CC_START_RANGE)
         logging.info("{} - Midi CC: channel {}, control {}, data {}".format(time_data, channel, ctrl, data))
